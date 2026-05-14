@@ -1,54 +1,153 @@
+/**
+ * Minimally Worker — Serves landing page + license verification API
+ *
+ * Routes:
+ *   GET  /   → Landing page HTML
+ *   POST /api/verify → License key validation
+ */
+const HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Minimally — Simple tools for what you own</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background-color:#ECEFF4;color:#2E3440;line-height:1.6}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header{padding:2.5rem 0 1rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.25rem;font-weight:600;color:#2E3440;letter-spacing:-0.02em}
+.logo span{color:#5E81AC}
+nav a{font-size:.875rem;color:#4C566A;text-decoration:none;margin-left:1.5rem;transition:color .2s}
+nav a:hover{color:#5E81AC}
+.hero{padding:5rem 0 4rem;text-align:center}
+.hero h1{font-size:2.75rem;font-weight:700;letter-spacing:-0.03em;line-height:1.15;color:#2E3440;max-width:560px;margin:0 auto 1rem}
+.hero h1 span{color:#5E81AC}
+.hero p{font-size:1.125rem;color:#4C566A;max-width:480px;margin:0 auto 2rem}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background-color:#5E81AC;color:#fff;font-size:.9375rem;font-weight:500;padding:.75rem 2rem;border-radius:12px;text-decoration:none;transition:background-color .2s}
+.hero-cta:hover{background-color:#4C6F94}
+section{padding:4rem 0}
+section+section{border-top:1px solid #D8DEE9}
+.section-label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#81A1C1;margin-bottom:.75rem}
+h2{font-size:1.75rem;font-weight:600;letter-spacing:-0.02em;color:#2E3440;margin-bottom:.75rem}
+.section-sub{font-size:1rem;color:#4C566A;max-width:520px;margin-bottom:2.5rem}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.feature-card{background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 1px 3px rgba(46,52,64,.04),0 1px 2px rgba(46,52,64,.03)}
+.feature-icon{font-size:1.5rem;margin-bottom:.75rem;display:block}
+.feature-card h3{font-size:.9375rem;font-weight:600;color:#2E3440;margin-bottom:.375rem}
+.feature-card p{font-size:.8125rem;color:#4C566A;line-height:1.5}
+.steps{display:flex;flex-direction:column;gap:1.25rem}
+.step{display:flex;align-items:flex-start;gap:1rem;background:#fff;border-radius:16px;padding:1.25rem 1.5rem;box-shadow:0 1px 3px rgba(46,52,64,.04),0 1px 2px rgba(46,52,64,.03)}
+.step-num{width:2rem;height:2rem;border-radius:10px;background-color:#E5E9F0;color:#5E81AC;font-size:.8125rem;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step h3{font-size:.9375rem;font-weight:600;color:#2E3440;margin-bottom:.25rem}
+.step p{font-size:.8125rem;color:#4C566A}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.pricing-card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 1px 3px rgba(46,52,64,.04),0 1px 2px rgba(46,52,64,.03);display:flex;flex-direction:column}
+.pricing-card.featured{border:2px solid #5E81AC;position:relative}
+.pricing-card.featured::before{content:"Popular";position:absolute;top:-.75rem;left:50%;transform:translateX(-50%);background:#5E81AC;color:#fff;font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:.25rem .75rem;border-radius:6px}
+.pricing-name{font-size:.8125rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#81A1C1;margin-bottom:.5rem}
+.pricing-price{font-size:2.5rem;font-weight:700;color:#2E3440;letter-spacing:-0.03em;line-height:1;margin-bottom:.5rem}
+.pricing-price span{font-size:1rem;font-weight:400;color:#81A1C1}
+.pricing-desc{font-size:.8125rem;color:#4C566A;margin-bottom:1.5rem;flex:1}
+.pricing-card ul{list-style:none;font-size:.8125rem;color:#4C566A;margin-bottom:1.5rem;flex:1}
+.pricing-card ul li{padding:.25rem 0;display:flex;align-items:center;gap:.5rem}
+.pricing-card ul li::before{content:"\u2713";color:#A3BE8C;font-weight:600}
+.pricing-cta{display:block;text-align:center;font-size:.875rem;font-weight:500;padding:.65rem;border-radius:10px;text-decoration:none;transition:background-color .2s}
+.pricing-cta.outline{border:1px solid #D8DEE9;color:#4C566A}
+.pricing-cta.outline:hover{background-color:#E5E9F0}
+.pricing-cta.solid{background-color:#5E81AC;color:#fff}
+.pricing-cta.solid:hover{background-color:#4C6F94}
+.pricing-note{font-size:.75rem;color:#81A1C1;text-align:center;margin-top:1.5rem;grid-column:1/-1}
+footer{border-top:1px solid #D8DEE9;padding:2.5rem 0;text-align:center;font-size:.8125rem;color:#81A1C1}
+footer a{color:#5E81AC;text-decoration:none}
+footer a:hover{text-decoration:underline}
+@media(max-width:600px){.hero h1{font-size:2rem}.features{grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}nav a{margin-left:1rem}}
+</style>
+</head>
+<body>
+<header class="container"><div class="logo">minim<span>ally</span></div><nav><a href="#essentials">Essentials</a><a href="#pricing">Pricing</a></nav></header>
+<section class="hero container"><h1>Simple tools for <span>what you own</span></h1><p>Minimally makes small, focused apps that help you track, organize, and know your things — without the clutter.</p><a class="hero-cta" href="#essentials">View Our First App ↓</a></section>
+<section id="essentials" class="container"><div class="section-label">Our first app</div><h2>Essentials</h2><p class="section-sub">A minimalist possessions tracker. Add items, snap a photo, and know when you last used everything you own.</p>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div><h3>Add an item</h3><p>Name it, categorize it, and snap a photo. The EXIF date becomes the last used timestamp automatically.</p></div></div>
+<div class="step"><div class="step-num">2</div><div><h3>Track usage</h3><p>Tap Mark as Used Now any time — or just take another photo. The app tracks everything for you.</p></div></div>
+<div class="step"><div class="step-num">3</div><div><h3>Spot whats stale</h3><p>A dedicated Stale tab shows items you havent used in a while. Configurable threshold so nothing slips through.</p></div></div>
+</div>
+<div style="margin-top:2.5rem"><div class="section-label">Features</div>
+<div class="features">
+<div class="feature-card"><span class="feature-icon">📸</span><h3>Photo timestamping</h3><p>EXIF data from camera photos automatically records when you used something.</p></div>
+<div class="feature-card"><span class="feature-icon">🗂️</span><h3>Group by location</h3><p>Organize items by where they live. Collapsible sections per location.</p></div>
+<div class="feature-card"><span class="feature-icon">🔍</span><h3>Sort options</h3><p>Sort by last used, name, or date added. Switch between All and Stale tabs.</p></div>
+<div class="feature-card"><span class="feature-icon">📦</span><h3>Edit &amp; delete</h3><p>Update item details, change photos, or remove items you no longer track.</p></div>
+<div class="feature-card"><span class="feature-icon">⚡</span><h3>Offline-first</h3><p>All data stays on your device. Works without internet. Installable as a PWA.</p></div>
+<div class="feature-card"><span class="feature-icon">🎨</span><h3>Nord Sanctuary</h3><p>Calm arctic color palette. Clean typography. Designed to be easy on the eyes.</p></div>
+</div></div>
+<div style="margin-top:2rem;text-align:center"><a class="hero-cta" href="https://essentials-pwa.netlify.app" style="font-size:.875rem">Try Essentials Free →</a></div></section>
+<section id="pricing" class="container"><div class="section-label">Pricing</div><h2>Simple. Fair.</h2><p class="section-sub">Try it free. Upgrade if you need more. No subscriptions for the basics.</p>
+<div class="pricing-grid">
+<div class="pricing-card"><div class="pricing-name">Free</div><div class="pricing-price">$0 <span>forever</span></div><div class="pricing-desc">Perfect for trying it out or light use.</div><ul><li>Up to 5 items</li><li>All core features</li><li>Offline-first PWA</li></ul><a class="pricing-cta outline" href="https://essentials-pwa.netlify.app">Try Free</a></div>
+<div class="pricing-card featured"><div class="pricing-name">Unlimited</div><div class="pricing-price">$5 <span>one-time</span></div><div class="pricing-desc">Everything unlocked. No recurring fees.</div><ul><li>Unlimited items</li><li>Sort &amp; group by location</li><li>Configurable stale threshold</li><li>All future features</li></ul><a class="pricing-cta solid" href="#">Get Unlimited →</a></div>
+<p class="pricing-note">Payment processing coming soon. For now, the app is free to use in full.</p></div></section>
+<footer class="container"><p>© 2026 <a href="#">Minimally</a> — built with care. No tracking, no cloud, no nonsense.</p></footer>
+</body></html>`;
+
 export default {
   async fetch(request) {
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    };
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders });
+    const url = new URL(request.url);
+
+    // POST /api/verify → License validation
+    if (url.pathname === '/api/verify' && request.method === 'POST') {
+      const corsHeaders = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      };
+
+      try {
+        const body = await request.json();
+        const { licenseKey } = body;
+        if (!licenseKey || typeof licenseKey !== 'string') {
+          return new Response(JSON.stringify({ valid: false }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        const lsResponse = await fetch('https://api.lemonsqueezy.com/v1/licenses/validate', {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ license_key: licenseKey }),
+        });
+        const lsData = await lsResponse.json();
+        const valid = lsData.valid && lsData.license_key?.status === 'active';
+        return new Response(JSON.stringify({ valid }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      } catch {
+        return new Response(JSON.stringify({ valid: false, error: 'Server error' }), {
+          status: 502,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
     }
-    if (request.method !== 'POST') {
-      return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-        status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-    let body;
-    try {
-      body = await request.json();
-    } catch {
-      return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-    const { licenseKey } = body;
-    if (!licenseKey || typeof licenseKey !== 'string') {
-      return new Response(JSON.stringify({ error: 'Missing licenseKey' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-    try {
-      const lsResponse = await fetch('https://api.lemonsqueezy.com/v1/licenses/validate', {
-        method: 'POST',
+
+    // Serve CORS preflight for API
+    if (url.pathname === '/api/verify' && request.method === 'OPTIONS') {
+      return new Response(null, {
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
         },
-        body: JSON.stringify({ license_key: licenseKey }),
-      });
-      const lsData = await lsResponse.json();
-      const valid = lsData.valid && lsData.license_key?.status === 'active';
-      return new Response(JSON.stringify({ valid }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    } catch {
-      return new Response(JSON.stringify({ valid: false, error: 'Verification service error' }), {
-        status: 502,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
+
+    // Everything else → Landing page
+    return new Response(HTML, {
+      headers: { 'Content-Type': 'text/html;charset=UTF-8' },
+    });
   },
 };

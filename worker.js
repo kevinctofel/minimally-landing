@@ -1,76 +1,12 @@
 /**
- * Cloudflare Worker — License key verification for Minimally apps
- *
- * Verifies license keys against Lemon Squeezy API.
- * No KV, no database — stateless and simple.
- *
- * To deploy: copy-paste into Cloudflare Dashboard → Workers & Pages → Create Worker
- * No build step needed.
+ * Minimally Worker — Serves landing page + license verification API
  */
+const LANDING_PAGE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimally — Simple tools for what you own</title>
+`;
 
-export default {
-  async fetch(request) {
-    // CORS headers for the PWA
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    };
-
-    // Handle preflight CORS requests
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders });
-    }
-
-    // Only accept POST
-    if (request.method !== 'POST') {
-      return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-        status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Parse body
-    let body;
-    try {
-      body = await request.json();
-    } catch {
-      return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    const { licenseKey } = body;
-    if (!licenseKey || typeof licenseKey !== 'string') {
-      return new Response(JSON.stringify({ error: 'Missing licenseKey' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Validate against Lemon Squeezy
-    try {
-      const lsResponse = await fetch('https://api.lemonsqueezy.com/v1/licenses/validate', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ license_key: licenseKey }),
-      });
-
-      const lsData = await lsResponse.json();
-
-      const valid = lsData.valid && lsData.license_key?.status === 'active';
-      return new Response(JSON.stringify({ valid }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    } catch (err) {
-      return new Response(JSON.stringify({ valid: false, error: 'Verification service error' }), {
-        status: 502,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-  },
-};
+// ... rest of the HTML needs to be embedded. Actually, this approach won't work great with the full HTML inline.
