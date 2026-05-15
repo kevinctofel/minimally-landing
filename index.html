@@ -1,407 +1,406 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minimally — Simple tools for what you own</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-    body {
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #ECEFF4;
-      color: #2E3440;
-      line-height: 1.6;
-    }
-    .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
-
-    /* Header */
-    header {
-      padding: 2.5rem 0 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #2E3440;
-      letter-spacing: -0.02em;
-    }
-    .logo span { color: #5E81AC; }
-    nav a {
-      font-size: 0.875rem;
-      color: #4C566A;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: #5E81AC; }
-
-    /* Hero */
-    .hero {
-      padding: 5rem 0 4rem;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 2.75rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: #2E3440;
-      max-width: 560px;
-      margin: 0 auto 1rem;
-    }
-    .hero h1 span { color: #5E81AC; }
-    .hero p {
-      font-size: 1.125rem;
-      color: #4C566A;
-      max-width: 480px;
-      margin: 0 auto 2rem;
-    }
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background-color: #5E81AC;
-      color: white;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      padding: 0.75rem 2rem;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: background-color 0.2s;
-    }
-    .hero-cta:hover { background-color: #4C6F94; }
-
-    /* Section */
-    section { padding: 4rem 0; }
-    section + section { border-top: 1px solid #D8DEE9; }
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #81A1C1;
-      margin-bottom: 0.75rem;
-    }
-    h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: #2E3440;
-      margin-bottom: 0.75rem;
-    }
-    .section-sub {
-      font-size: 1rem;
-      color: #4C566A;
-      max-width: 520px;
-      margin-bottom: 2.5rem;
-    }
-
-    /* Feature Grid */
-    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .feature-card {
-      background: white;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 1px 3px rgba(46,52,64,0.04), 0 1px 2px rgba(46,52,64,0.03);
-    }
-    .feature-icon { font-size: 1.5rem; margin-bottom: 0.75rem; display: block; }
-    .feature-card h3 {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: #2E3440;
-      margin-bottom: 0.375rem;
-    }
-    .feature-card p {
-      font-size: 0.8125rem;
-      color: #4C566A;
-      line-height: 1.5;
-    }
-
-    /* How it works */
-    .steps { display: flex; flex-direction: column; gap: 1.25rem; }
-    .step {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      background: white;
-      border-radius: 16px;
-      padding: 1.25rem 1.5rem;
-      box-shadow: 0 1px 3px rgba(46,52,64,0.04), 0 1px 2px rgba(46,52,64,0.03);
-    }
-    .step-num {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 10px;
-      background-color: #E5E9F0;
-      color: #5E81AC;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .step h3 {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: #2E3440;
-      margin-bottom: 0.25rem;
-    }
-    .step p { font-size: 0.8125rem; color: #4C566A; }
-
-    /* Pricing */
-    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .pricing-card {
-      background: white;
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: 0 1px 3px rgba(46,52,64,0.04), 0 1px 2px rgba(46,52,64,0.03);
-      display: flex;
-      flex-direction: column;
-    }
-    .pricing-card.featured {
-      border: 2px solid #5E81AC;
-      position: relative;
-    }
-    .pricing-card.featured::before {
-      content: "Popular";
-      position: absolute;
-      top: -0.75rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #5E81AC;
-      color: white;
-      font-size: 0.6875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 0.25rem 0.75rem;
-      border-radius: 6px;
-    }
-    .pricing-name {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #81A1C1;
-      margin-bottom: 0.5rem;
-    }
-    .pricing-price {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #2E3440;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    .pricing-price span {
-      font-size: 1rem;
-      font-weight: 400;
-      color: #81A1C1;
-    }
-    .pricing-desc {
-      font-size: 0.8125rem;
-      color: #4C566A;
-      margin-bottom: 1.5rem;
-      flex: 1;
-    }
-    .pricing-card ul {
-      list-style: none;
-      font-size: 0.8125rem;
-      color: #4C566A;
-      margin-bottom: 1.5rem;
-      flex: 1;
-    }
-    .pricing-card ul li {
-      padding: 0.25rem 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .pricing-card ul li::before { content: "✓"; color: #A3BE8C; font-weight: 600; }
-    .pricing-cta {
-      display: block;
-      text-align: center;
-      font-size: 0.875rem;
-      font-weight: 500;
-      padding: 0.65rem;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: background-color 0.2s;
-    }
-    .pricing-cta.outline {
-      border: 1px solid #D8DEE9;
-      color: #4C566A;
-    }
-    .pricing-cta.outline:hover { background-color: #E5E9F0; }
-    .pricing-cta.solid {
-      background-color: #5E81AC;
-      color: white;
-    }
-    .pricing-cta.solid:hover { background-color: #4C6F94; }
-    .pricing-note {
-      font-size: 0.75rem;
-      color: #81A1C1;
-      text-align: center;
-      margin-top: 1.5rem;
-      grid-column: 1 / -1;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid #D8DEE9;
-      padding: 2.5rem 0;
-      text-align: center;
-      font-size: 0.8125rem;
-      color: #81A1C1;
-    }
-    footer a { color: #5E81AC; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 2rem; }
-      .features { grid-template-columns: 1fr; }
-      .pricing-grid { grid-template-columns: 1fr; }
-      nav a { margin-left: 1rem; }
-    }
-  </style>
-</head>
-<body>
-
-<header class="container">
-  <div class="logo">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="28" height="28" style="vertical-align:middle;margin-right:6px;margin-top:-3px">
-      <rect width="32" height="32" rx="8" fill="#2E3440"/>
-      <path d="M8 22V10l6 6 6-6v12" stroke="#ECEFF4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </svg>
-    minim<span>ally</span>
-  </div>
-  <nav>
-    <a href="#essentials">Essentials</a>
-    <a href="#pricing">Pricing</a>
-  </nav>
-</header>
-
-<section class="hero container">
-  <h1>Simple tools for <span>what you own</span></h1>
-  <p>Minimally makes small, focused apps that help you track, organize, and know your things — without the clutter. Every pixel is intentional, from the Nordic color palette to the single typeface throughout.</p>
-  <a class="hero-cta" href="#essentials">View Our First App ↓</a>
-</section>
-
-<section id="essentials" class="container">
-  <div class="section-label">Our first app</div>
-  <h2>Essentials</h2>
-  <p class="section-sub">A minimalist possessions tracker. Add items, snap a photo, and know when you last used everything you own.</p>
-
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div>
-        <h3>Add an item</h3>
-        <p>Name it, categorize it, and snap a photo. The EXIF date becomes the "last used" timestamp automatically.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div>
-        <h3>Track usage</h3>
-        <p>Tap "Mark as Used Now" any time — or just take another photo. The app tracks everything for you.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div>
-        <h3>Spot what's stale</h3>
-        <p>A dedicated Stale tab shows items you haven't used in a while. Configurable threshold so nothing slips through.</p>
-      </div>
-    </div>
-  </div>
-
-  <div style="margin-top: 2.5rem;">
-    <div class="section-label">Features</div>
-    <div class="features">
-      <div class="feature-card">
-        <span class="feature-icon">📸</span>
-        <h3>Photo timestamping</h3>
-        <p>EXIF data from camera photos automatically records when you used something.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🗂️</span>
-        <h3>Group by location</h3>
-        <p>Organize items by where they live — Garage, Kitchen, Basement. Collapsible sections.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🔍</span>
-        <h3>Sort & filter</h3>
-        <p>Sort by last used, name, or date added. Switch between all items or just stale ones.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">📦</span>
-        <h3>Edit & delete</h3>
-        <p>Update item details, change photos, or remove items you no longer track.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⚡</span>
-        <h3>Offline-first</h3>
-        <p>All data stays on your device. Works without internet. Installable as a PWA.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🎨</span>
-        <h3>Minimal frame of mind</h3>
-        <p>Nord color palette — calm arctic blues and grays. Inter typeface throughout. Clean cards, quiet shadows. Nothing screams.</p>
-      </div>
-    </div>
-  </div>
-
-  <div style="margin-top: 2rem; text-align: center;">
-    <a class="hero-cta" href="https://essentials-pwa.netlify.app" style="font-size: 0.875rem;">Try Essentials Free →</a>
-  </div>
-</section>
-
-<section id="pricing" class="container">
-  <div class="section-label">Pricing</div>
-  <h2>Simple. Fair.</h2>
-  <p class="section-sub">Try it free. Upgrade if you need more. No subscriptions for the basics.</p>
-
-  <div class="pricing-grid">
-    <div class="pricing-card">
-      <div class="pricing-name">Free</div>
-      <div class="pricing-price">$0 <span>forever</span></div>
-      <div class="pricing-desc">Perfect for trying it out or light use.</div>
-      <ul>
-        <li>Up to 5 items</li>
-        <li>All core features</li>
-        <li>Offline-first PWA</li>
-      </ul>
-      <a class="pricing-cta outline" href="https://essentials-pwa.netlify.app">Try Free</a>
-    </div>
-    <div class="pricing-card featured">
-      <div class="pricing-name">Unlimited</div>
-      <div class="pricing-price">$5 <span>one-time</span></div>
-      <div class="pricing-desc">Everything unlocked. No recurring fees.</div>
-      <ul>
-        <li>Unlimited items</li>
-        <li>Sort &amp; group by location</li>
-        <li>Configurable stale threshold</li>
-        <li>All future features</li>
-      </ul>
-      <a class="pricing-cta solid" href="#">Get Unlimited →</a>
-    </div>
-    <p class="pricing-note">Payment processing coming soon. For now, the app is free to use in full.</p>
-  </div>
-</section>
-
-<footer class="container">
-  <p>© 2026 <a href="#">Minimally</a> — built with care. No tracking, no cloud, no nonsense.</p>
-</footer>
-
-</body>
-</html>
+     1|<!DOCTYPE html>
+     2|<html lang="en">
+     3|<head>
+     4|  <meta charset="UTF-8">
+     5|  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6|  <title>Minimally — Simple tools for what you own</title>
+     7|  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+     8|  <link rel="preconnect" href="https://fonts.googleapis.com">
+     9|  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    10|  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    11|  <style>
+    12|    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    13|    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    14|    body {
+    15|      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    16|      background-color: #ECEFF4;
+    17|      color: #2E3440;
+    18|      line-height: 1.6;
+    19|    }
+    20|    .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+    21|
+    22|    /* Header */
+    23|    header {
+    24|      padding: 2.5rem 0 1rem;
+    25|      display: flex;
+    26|      align-items: center;
+    27|      justify-content: space-between;
+    28|    }
+    29|    .logo {
+    30|      font-size: 1.25rem;
+    31|      font-weight: 600;
+    32|      color: #2E3440;
+    33|      letter-spacing: -0.02em;
+    34|    }
+    35|    .logo span { color: #5E81AC; }
+    36|    nav a {
+    37|      font-size: 0.875rem;
+    38|      color: #4C566A;
+    39|      text-decoration: none;
+    40|      margin-left: 1.5rem;
+    41|      transition: color 0.2s;
+    42|    }
+    43|    nav a:hover { color: #5E81AC; }
+    44|
+    45|    /* Hero */
+    46|    .hero {
+    47|      padding: 5rem 0 4rem;
+    48|      text-align: center;
+    49|    }
+    50|    .hero h1 {
+    51|      font-size: 2.75rem;
+    52|      font-weight: 700;
+    53|      letter-spacing: -0.03em;
+    54|      line-height: 1.15;
+    55|      color: #2E3440;
+    56|      max-width: 560px;
+    57|      margin: 0 auto 1rem;
+    58|    }
+    59|    .hero h1 span { color: #5E81AC; }
+    60|    .hero p {
+    61|      font-size: 1.125rem;
+    62|      color: #4C566A;
+    63|      max-width: 480px;
+    64|      margin: 0 auto 2rem;
+    65|    }
+    66|    .hero-cta {
+    67|      display: inline-flex;
+    68|      align-items: center;
+    69|      gap: 0.5rem;
+    70|      background-color: #5E81AC;
+    71|      color: white;
+    72|      font-size: 0.9375rem;
+    73|      font-weight: 500;
+    74|      padding: 0.75rem 2rem;
+    75|      border-radius: 12px;
+    76|      text-decoration: none;
+    77|      transition: background-color 0.2s;
+    78|    }
+    79|    .hero-cta:hover { background-color: #4C6F94; }
+    80|
+    81|    /* Section */
+    82|    section { padding: 4rem 0; }
+    83|    section + section { border-top: 1px solid #D8DEE9; }
+    84|    .section-label {
+    85|      font-size: 0.75rem;
+    86|      font-weight: 600;
+    87|      text-transform: uppercase;
+    88|      letter-spacing: 0.08em;
+    89|      color: #81A1C1;
+    90|      margin-bottom: 0.75rem;
+    91|    }
+    92|    h2 {
+    93|      font-size: 1.75rem;
+    94|      font-weight: 600;
+    95|      letter-spacing: -0.02em;
+    96|      color: #2E3440;
+    97|      margin-bottom: 0.75rem;
+    98|    }
+    99|    .section-sub {
+   100|      font-size: 1rem;
+   101|      color: #4C566A;
+   102|      max-width: 520px;
+   103|      margin-bottom: 2.5rem;
+   104|    }
+   105|
+   106|    /* Feature Grid */
+   107|    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+   108|    .feature-card {
+   109|      background: white;
+   110|      border-radius: 16px;
+   111|      padding: 1.5rem;
+   112|      box-shadow: 0 1px 3px rgba(46,52,64,0.04), 0 1px 2px rgba(46,52,64,0.03);
+   113|    }
+   114|    .feature-icon { font-size: 1.5rem; margin-bottom: 0.75rem; display: block; }
+   115|    .feature-card h3 {
+   116|      font-size: 0.9375rem;
+   117|      font-weight: 600;
+   118|      color: #2E3440;
+   119|      margin-bottom: 0.375rem;
+   120|    }
+   121|    .feature-card p {
+   122|      font-size: 0.8125rem;
+   123|      color: #4C566A;
+   124|      line-height: 1.5;
+   125|    }
+   126|
+   127|    /* How it works */
+   128|    .steps { display: flex; flex-direction: column; gap: 1.25rem; }
+   129|    .step {
+   130|      display: flex;
+   131|      align-items: flex-start;
+   132|      gap: 1rem;
+   133|      background: white;
+   134|      border-radius: 16px;
+   135|      padding: 1.25rem 1.5rem;
+   136|      box-shadow: 0 1px 3px rgba(46,52,64,0.04), 0 1px 2px rgba(46,52,64,0.03);
+   137|    }
+   138|    .step-num {
+   139|      width: 2rem;
+   140|      height: 2rem;
+   141|      border-radius: 10px;
+   142|      background-color: #E5E9F0;
+   143|      color: #5E81AC;
+   144|      font-size: 0.8125rem;
+   145|      font-weight: 600;
+   146|      display: flex;
+   147|      align-items: center;
+   148|      justify-content: center;
+   149|      flex-shrink: 0;
+   150|    }
+   151|    .step h3 {
+   152|      font-size: 0.9375rem;
+   153|      font-weight: 600;
+   154|      color: #2E3440;
+   155|      margin-bottom: 0.25rem;
+   156|    }
+   157|    .step p { font-size: 0.8125rem; color: #4C566A; }
+   158|
+   159|    /* Pricing */
+   160|    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+   161|    .pricing-card {
+   162|      background: white;
+   163|      border-radius: 16px;
+   164|      padding: 2rem;
+   165|      box-shadow: 0 1px 3px rgba(46,52,64,0.04), 0 1px 2px rgba(46,52,64,0.03);
+   166|      display: flex;
+   167|      flex-direction: column;
+   168|    }
+   169|    .pricing-card.featured {
+   170|      border: 2px solid #5E81AC;
+   171|      position: relative;
+   172|    }
+   173|    .pricing-card.featured::before {
+   174|      content: "Popular";
+   175|      position: absolute;
+   176|      top: -0.75rem;
+   177|      left: 50%;
+   178|      transform: translateX(-50%);
+   179|      background: #5E81AC;
+   180|      color: white;
+   181|      font-size: 0.6875rem;
+   182|      font-weight: 600;
+   183|      text-transform: uppercase;
+   184|      letter-spacing: 0.06em;
+   185|      padding: 0.25rem 0.75rem;
+   186|      border-radius: 6px;
+   187|    }
+   188|    .pricing-name {
+   189|      font-size: 0.8125rem;
+   190|      font-weight: 600;
+   191|      text-transform: uppercase;
+   192|      letter-spacing: 0.08em;
+   193|      color: #81A1C1;
+   194|      margin-bottom: 0.5rem;
+   195|    }
+   196|    .pricing-price {
+   197|      font-size: 2.5rem;
+   198|      font-weight: 700;
+   199|      color: #2E3440;
+   200|      letter-spacing: -0.03em;
+   201|      line-height: 1;
+   202|      margin-bottom: 0.5rem;
+   203|    }
+   204|    .pricing-price span {
+   205|      font-size: 1rem;
+   206|      font-weight: 400;
+   207|      color: #81A1C1;
+   208|    }
+   209|    .pricing-desc {
+   210|      font-size: 0.8125rem;
+   211|      color: #4C566A;
+   212|      margin-bottom: 1.5rem;
+   213|      flex: 1;
+   214|    }
+   215|    .pricing-card ul {
+   216|      list-style: none;
+   217|      font-size: 0.8125rem;
+   218|      color: #4C566A;
+   219|      margin-bottom: 1.5rem;
+   220|      flex: 1;
+   221|    }
+   222|    .pricing-card ul li {
+   223|      padding: 0.25rem 0;
+   224|      display: flex;
+   225|      align-items: center;
+   226|      gap: 0.5rem;
+   227|    }
+   228|    .pricing-card ul li::before { content: "✓"; color: #A3BE8C; font-weight: 600; }
+   229|    .pricing-cta {
+   230|      display: block;
+   231|      text-align: center;
+   232|      font-size: 0.875rem;
+   233|      font-weight: 500;
+   234|      padding: 0.65rem;
+   235|      border-radius: 10px;
+   236|      text-decoration: none;
+   237|      transition: background-color 0.2s;
+   238|    }
+   239|    .pricing-cta.outline {
+   240|      border: 1px solid #D8DEE9;
+   241|      color: #4C566A;
+   242|    }
+   243|    .pricing-cta.outline:hover { background-color: #E5E9F0; }
+   244|    .pricing-cta.solid {
+   245|      background-color: #5E81AC;
+   246|      color: white;
+   247|    }
+   248|    .pricing-cta.solid:hover { background-color: #4C6F94; }
+   249|    .pricing-note {
+   250|      font-size: 0.75rem;
+   251|      color: #81A1C1;
+   252|      text-align: center;
+   253|      margin-top: 1.5rem;
+   254|      grid-column: 1 / -1;
+   255|    }
+   256|
+   257|    /* Footer */
+   258|    footer {
+   259|      border-top: 1px solid #D8DEE9;
+   260|      padding: 2.5rem 0;
+   261|      text-align: center;
+   262|      font-size: 0.8125rem;
+   263|      color: #81A1C1;
+   264|    }
+   265|    footer a { color: #5E81AC; text-decoration: none; }
+   266|    footer a:hover { text-decoration: underline; }
+   267|
+   268|    /* Responsive */
+   269|    @media (max-width: 600px) {
+   270|      .hero h1 { font-size: 2rem; }
+   271|      .features { grid-template-columns: 1fr; }
+   272|      .pricing-grid { grid-template-columns: 1fr; }
+   273|      nav a { margin-left: 1rem; }
+   274|    }
+   275|  </style>
+   276|</head>
+   277|<body>
+   278|
+   279|<header class="container">
+   280|  <div class="logo">
+   281|    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="28" height="28" style="vertical-align:middle;margin-right:6px;margin-top:-3px">
+   282|      <rect width="32" height="32" rx="8" fill="#2E3440"/>
+   283|      <path d="M8 22V10l6 6 6-6v12" stroke="#ECEFF4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+   284|    </svg>
+   285|    minim<span>ally</span>
+   286|  </div>
+   287|  <nav>
+   288|    <a href="#essentials">Essentials</a>
+   289|    <a href="#pricing">Pricing</a>
+   290|  </nav>
+   291|</header>
+   292|
+   293|<section class="hero container">
+   294|  <h1>Simple tools for <span>what you own</span></h1>
+   295|  <p>Minimally makes small, focused apps that help you track, organize, and know your things — without the clutter. Every pixel is intentional, from the Nordic color palette to the single typeface throughout.</p>
+   296|  <a class="hero-cta" href="#essentials">View Our First App ↓</a>
+   297|</section>
+   298|
+   299|<section id="essentials" class="container">
+   300|  <div class="section-label">Our first app</div>
+   301|  <h2>Essentials</h2>
+   302|  <p class="section-sub">A minimalist possessions tracker — focused on the things you check in on occasionally. Perfect for figuring out how often you really use items, and making room for what matters more.</p>
+   303| 
+   304|  <div class="section-sub" style="color:#81A1C1;font-style:italic;">
+   305|    Think of Essentials for your seasonal equipment, hobby gear, and closet-clearing candidates. Use it to discover what you almost never reach for — then decide which items to donate or upcycle, leaving just what you genuinely need in your minimalist lifestyle.
+   306|  </div>
+   307|  
+   308|  <div class="steps">
+   309|    <div class="step">
+   310|    </div>
+   311|    <div class="step">
+   312|    </div>
+   313|    <div class="step">
+   314|    </div>
+   315|    <div class="step">
+   316|    </div>
+   317|  </div>
+   318|
+   319|  <div class="features" style="margin-top: 2rem;">
+   320|  <div class="steps">
+   321|    <div class="step">
+   322|    </div>
+   323|    <div class="step">
+   324|    </div>
+   325|    <div class="step">
+   326|    </div>
+   327|  </div>
+   328|
+   329|  <div style="margin-top: 2.5rem;">
+   330|    <span class="feature-icon">📸</span>
+   334|        <h3>Photo timestamping</h3>
+   335|        <p>EXIF data from camera photos automatically records when you used something.</p>
+   336|      </div>
+   337|      <div class="feature-card">
+   338|        <span class="feature-icon">🗂️</span>
+   339|        <h3>Group by location</h3>
+   340|        <p>Organize items by where they live — Garage, Kitchen, Basement. Collapsible sections.</p>
+   341|      </div>
+   342|      <div class="feature-card">
+   343|        <span class="feature-icon">🔍</span>
+   344|        <h3>Sort & filter</h3>
+   345|        <p>Sort by last used, name, or date added. Switch between all items or just stale ones.</p>
+   346|      </div>
+   347|      <div class="feature-card">
+   348|        <span class="feature-icon">📦</span>
+   349|        <h3>Edit & delete</h3>
+   350|        <p>Update item details, change photos, or remove items you no longer track.</p>
+   351|      </div>
+   352|      <div class="feature-card">
+   353|        <span class="feature-icon">⚡</span>
+   354|        <h3>Offline-first</h3>
+   355|        <p>All data stays on your device. Works without internet. Installable as a PWA.</p>
+   356|      </div>
+   357|      <div class="feature-card">
+   358|        <span class="feature-icon">🎨</span>
+   359|        <h3>Minimal frame of mind</h3>
+   360|        <p>Nord color palette — calm arctic blues and grays. Inter typeface throughout. Clean cards, quiet shadows. Nothing screams.</p>
+   361|      </div>
+   362|    </div>
+   363|  </div>
+   364|
+   365|  <div style="margin-top: 2rem; text-align: center;">
+   366|    <a class="hero-cta" href="https://essentialitems.netlify.app/" style="font-size: 0.875rem;">Try Essentials Free →</a>
+   367|  </div>
+   368|</section>
+   369|
+   370|<section id="pricing" class="container">
+   371|  <div class="section-label">Pricing</div>
+   372|  <h2>Simple. Fair.</h2>
+   373|  <p class="section-sub">Try it free. Upgrade if you need more. No subscriptions for the basics.</p>
+   374|
+   375|  <div class="pricing-grid">
+   376|    <div class="pricing-card">
+   377|      <div class="pricing-name">Free</div>
+   378|      <div class="pricing-price">$0 <span>forever</span></div>
+   379|      <div class="pricing-desc">Perfect for trying it out or light use.</div>
+   380|      <ul>
+   381|        <li>Up to 5 items</li>
+   382|        <li>All core features</li>
+   383|        <li>Offline-first PWA</li>
+   384|      </ul>
+   385|      <a class="pricing-cta outline" href="https://essentialitems.netlify.app/">Try Free</a>
+   386|    </div>
+   387|    <div class="pricing-card featured">
+   388|      <div class="pricing-name">Unlimited</div>
+   389|      <div class="pricing-price">$5 <span>one-time</span></div>
+   390|      <div class="pricing-desc">Everything unlocked. No recurring fees.</div>
+   391|      <ul>
+   392|        <li>Unlimited items</li>
+   393|        <li>Sort &amp; group by location</li>
+   394|        <li>Configurable stale threshold</li>
+   395|        <li>All future features</li>
+   396|      </ul>
+   397|      <a class="pricing-cta solid" href="#">Get Unlimited →</a>
+   398|    </div>
+   399|    <p class="pricing-note">Payment processing coming soon. For now, the app is free to use in full.</p>
+   400|  </div>
+   401|</section>
+   402|
+   403|<footer class="container">
+   404|  <p>© 2026 <a href="#">Minimally</a> — built with care. No tracking, no cloud, no nonsense.</p>
+   405|</footer>
+   406|
+   407|</body>
+   408|</html>
+   409|
