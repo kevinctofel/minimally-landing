@@ -1,6 +1,0 @@
-name = "minimally-api"
-main = "worker.js"
-compatibility_date = "2025-01-01"
-
-[vars]
-# Set LEMON_SQUEEZY_API_KEY in Cloudflare dashboard > Workers > minimally-api > Settings > Variables
